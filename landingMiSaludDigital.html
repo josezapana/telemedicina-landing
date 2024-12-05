@@ -10,12 +10,39 @@
     function onSubmitCaptcha(token) {
       document.getElementById('h-captcha-response').value = token;
     }
+        // Función para obtener parámetros de la URL
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return Object.fromEntries(params.entries());
+        }
+
+      // Función para mostrar u ocultar secciones según los parámetros
+      function handleView() {
+          const params = getQueryParams();
+          if (Object.keys(params).length > 0) {
+              // Si hay parámetros, mostrar resultados y ocultar formulario
+              document.getElementById('formulario-envio').classList.add('d-none');
+              document.getElementById('resultados').classList.remove('d-none');
+
+              // Llenar resultados con los valores de los parámetros
+              for (const [key, value] of Object.entries(params)) {
+                  const element = document.getElementById(`resultado-${key}`);
+                  if (element) {
+                      element.textContent = value;
+                  }
+              }
+          } else {
+              // Si no hay parámetros, mostrar formulario
+              document.getElementById('formulario-envio').classList.remove('d-none');
+              document.getElementById('resultados').classList.add('d-none');
+          }
+      }
   </script>
 
 </head>
-<body>
+<body onload="handleView()">
 <div class="container mt-5">
-  <h2 class="text-center">Mi Salud Digital</h2>
+  <h2 class="text-center">Mi Salud Digital.</h2>
   <h3 class="text-center">Validación de Documentos</h3>
   <form action="http://localhost:8610/api/validador-documentos/validate-codigo-documento" method="POST" class="mt-4">
     <!-- Código de Validación -->
@@ -39,5 +66,18 @@
     <button type="submit" class="btn btn-primary w-100">Validar</button>
   </form>
 </div>
+<div id="resultados" class="d-none">
+    <h1 class="mb-4">Resultados</h1>
+    <p><strong>Estado:</strong> <span id="resultado-estado"></span></p>
+    <p><strong>Mensaje:</strong> <span id="resultado-mensaje"></span></p>
+    <p><strong>Descripción:</strong> <span id="resultado-descripcion"></span></p>
+    <p><strong>Nombre del Paciente:</strong> <span id="resultado-nombreApellidoPaciente"></span></p>
+    <p><strong>DNI del Paciente:</strong> <span id="resultado-dniPaciente"></span></p>
+    <p><strong>Tipo de Documento:</strong> <span id="resultado-tipoDocumento"></span></p>
+    <p><strong>Nombre del Médico:</strong> <span id="resultado-nombreApellidoMedico"></span></p>
+    <p><strong>Matrícula Profesional:</strong> <span id="resultado-matriculaProfesional"></span></p>
+    <a href="landing.html" class="btn btn-secondary mt-4">Realizar otra validación</a>
+</div>
+  
 </body>
 </html>
