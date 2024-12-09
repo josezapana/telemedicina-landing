@@ -1,83 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Salud Digital</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://hcaptcha.com/1/api.js" async defer></script>
-  <script>
-    function onSubmitCaptcha(token) {
-      document.getElementById('h-captcha-response').value = token;
-    }
-        // Función para obtener parámetros de la URL
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return Object.fromEntries(params.entries());
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const container = document.querySelector(".container");
+            const submitButton = document.querySelector("button[type='submit']");
+            const validationCode = document.getElementById("validationCode");
+            const attentionDate = document.getElementById("attentionDate");
+            const hCaptchaResponse = document.getElementById("h-captcha-response");
+            let isCaptchaValid = false;
 
-      // Función para mostrar u ocultar secciones según los parámetros
-      function handleView() {
-          const params = getQueryParams();
-          if (Object.keys(params).length > 0) {
-              // Si hay parámetros, mostrar resultados y ocultar formulario
-              document.getElementById('formulario-envio').classList.add('d-none');
-              document.getElementById('resultados').classList.remove('d-none');
+            submitButton.disabled = true;
 
-              // Llenar resultados con los valores de los parámetros
-              for (const [key, value] of Object.entries(params)) {
-                  const element = document.getElementById(`resultado-${key}`);
-                  if (element) {
-                      element.textContent = value;
-                  }
-              }
-          } else {
-              // Si no hay parámetros, mostrar formulario
-              document.getElementById('formulario-envio').classList.remove('d-none');
-              document.getElementById('resultados').classList.add('d-none');
-          }
-      }
-  </script>
+            function checkInputs() {
+                if (
+                    validationCode.value.trim() !== "" &&
+                    attentionDate.value.trim() !== "" &&
+                    isCaptchaValid
+                ) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
 
+            async function validateCaptcha(token) {
+                try {
+                    const response = await fetch("http://localhost:8610/api/validador-documentos/validate-captcha", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: `h-captcha-response=${token}`,
+                    });
+
+                    if (response.ok) {
+                        isCaptchaValid = true;
+                    } else {
+                        isCaptchaValid = false;
+                        console.log("Captcha inválido. Por favor, inténtalo de nuevo.");
+                    }
+                } catch (error) {
+                    console.error("Error al validar el captcha:", error);
+                    isCaptchaValid = false;
+                } finally {
+                    checkInputs();
+                }
+            }
+
+            window.onSubmitCaptcha = function (token) {
+                hCaptchaResponse.value = token;
+                validateCaptcha(token);
+            };
+
+            validationCode.addEventListener("input", checkInputs);
+            attentionDate.addEventListener("input", checkInputs);
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                submitButton.disabled = true;
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch("http://localhost:8610/api/validador-documentos/validate-codigo-documento", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    form.style.display = "none";
+                    if (result.estado === "SUCCESS") {
+                        const infoDiv = document.createElement("div");
+                        infoDiv.className = "alert alert-success mt-3";
+
+                        infoDiv.innerHTML = `
+                            <h1>Documento válido</h1>
+                            <p>El documento es válido</p>
+                            <p>${result.descripcion}</p>
+                            <p><strong>Tipo:</strong> ${result.dniPaciente}</p>
+                            <p>${result.tipoDocumento}</p>
+                            <p><strong>Profesional:</strong> ${result.nombreApellidoMedico}</p>
+                            <p><strong>Matrícula:</strong> ${result.matriculaProfesional}</p>
+
+                            <button type="button" class="mt-3 btn btn-primary btn-aceptar">Aceptar</button>`;
+
+                        container.appendChild(infoDiv);
+
+                        const btnAceptar = document.querySelector(".btn-aceptar");
+                        btnAceptar.addEventListener("click", () => {
+                            window.location.href = "http://localhost:8610/captcha-form";
+                        });
+                    } else {
+                        const errorDiv = `
+                            <div class="alert alert-danger mt-3">
+                                <h1>Documento no válido.</h1>
+                                <p>El código ingresado no corresponde a un documento válido.</p>
+                            </div>
+                            <button type="button" class="mt-3 btn btn-primary btn-aceptar">Aceptar</button>`;
+
+                        container.insertAdjacentHTML("beforeend", errorDiv);
+
+                        const btnAceptar = document.querySelector(".btn-aceptar");
+                        btnAceptar.addEventListener("click", () => {
+                            window.location.href = "http://localhost:8610/captcha-form";
+                        });
+                    }
+                } catch (err) {
+                    console.error(err);
+
+                    const errorP = document.createElement("p");
+                    errorP.className = "alert alert-danger mt-3";
+                    errorP.innerText = "Error en la resputa";
+
+                    container.appendChild(errorP);
+                }
+            });
+        });
+    </script>
 </head>
-<body onload="handleView()">
+<body>
 <div class="container mt-5">
-  <h2 class="text-center">Mi Salud Digital.</h2>
-  <h3 class="text-center">Validación de Documentos</h3>
-  <form action="http://localhost:8610/api/validador-documentos/validate-codigo-documento" method="POST" class="mt-4">
-    <!-- Código de Validación -->
-    <div class="mb-3">
-      <label for="validationCode" class="form-label">C&oacute;digo de Validaci&oacute;n</label>
-      <input type="text" id="validationCode" name="validationCode" class="form-control" required
-             pattern="[A-Za-z0-9]+" placeholder="Ingrese un código alfanumérico">
-    </div>
+    <h1 class="text-center">Mi Salud Digital</h1>
+    <h2 class="text-center">Validación de Documentos</h2>
+    <form id="validationForm" method="POST" class="mt-4">
+        <!-- Código de Validación -->
+        <div class="mb-3">
+            <label for="validationCode" class="form-label">Ingresá el código de validación</label>
+            <input type="text" id="validationCode" name="validationCode" class="form-control" required
+                   pattern="[A-Za-z0-9]+" placeholder="Ingrese un código alfanumérico">
+        </div>
 
-    <!-- Fecha de Atención -->
-    <div class="mb-3">
-      <label for="attentionDate" class="form-label">Fecha de Atención</label>
-      <input type="date" id="attentionDate" name="attentionDate" class="form-control" required>
-    </div>
+        <!-- Fecha de Atención -->
+        <div class="mb-3">
+            <label for="attentionDate" class="form-label">Fecha del documento</label>
+            <input type="date" id="attentionDate" name="attentionDate" class="form-control" required>
+        </div>
 
-    <div class="h-captcha"
-         data-sitekey="c84ca460-b2e2-46c0-94c6-91f03be6e746"
-         data-callback="onSubmitCaptcha">
-    </div>
+        <!-- hCaptcha -->
+        <input type="hidden" id="h-captcha-response" name="h-captcha-response">
+        <div class="h-captcha"
+             data-sitekey="c84ca460-b2e2-46c0-94c6-91f03be6e746"
+             data-callback="onSubmitCaptcha">
+        </div>
 
-    <button type="submit" class="btn btn-primary w-100">Validar</button>
-  </form>
+        <!-- Botón de envío -->
+        <button type="submit" class="btn btn-primary w-100">Enviar</button>
+    </form>
+
+    <div class="text-center">
+        <a href="https://misaluddigital.ms.gba.gov.ar/login">Volver al inicio</a>
+    </div>
 </div>
-<div id="resultados" class="d-none">
-    <h1 class="mb-4">Resultados</h1>
-    <p><strong>Estado:</strong> <span id="resultado-estado"></span></p>
-    <p><strong>Mensaje:</strong> <span id="resultado-mensaje"></span></p>
-    <p><strong>Descripción:</strong> <span id="resultado-descripcion"></span></p>
-    <p><strong>Nombre del Paciente:</strong> <span id="resultado-nombreApellidoPaciente"></span></p>
-    <p><strong>DNI del Paciente:</strong> <span id="resultado-dniPaciente"></span></p>
-    <p><strong>Tipo de Documento:</strong> <span id="resultado-tipoDocumento"></span></p>
-    <p><strong>Nombre del Médico:</strong> <span id="resultado-nombreApellidoMedico"></span></p>
-    <p><strong>Matrícula Profesional:</strong> <span id="resultado-matriculaProfesional"></span></p>
-    <a href="landing.html" class="btn btn-secondary mt-4">Realizar otra validación</a>
-</div>
-  
 </body>
 </html>
