@@ -32,7 +32,7 @@
 
             async function validateCaptcha(token) {
                 try {
-                    const response = await fetch("http://localhost:8610/api/validador-documentos/validate-captcha", {
+                    const response = await fetch("https://dev-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-captcha", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
@@ -69,7 +69,7 @@
                 const formData = new FormData(form);
 
                 try {
-                    const response = await fetch("http://localhost:8610/api/validador-documentos/validate-codigo-documento", {
+                    const response = await fetch("https://dev-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento", {
                         method: "POST",
                         body: formData,
                     });
