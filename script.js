@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch("http://localhost:8610/api/validador-documentos/validate-codigo-documento", {
+            const response = await fetch("http://localhost:8702/api/validador-documentos/validate-codigo-documento", {
                 method: "POST",
                 body: formData,
             });
