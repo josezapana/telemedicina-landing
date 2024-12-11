@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const container = document.querySelector(".container");
+    let URL_FETCH = 'https://dev-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
+    let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -8,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch("http://localhost:8702/api/validador-documentos/validate-codigo-documento", {
+            const response = await fetch(URL_FETCH, {
                 method: "POST",
                 body: formData,
             });
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p><strong>Profesional:</strong> ${result.nombreApellidoMedico}</p>
                     <p><strong>Matrícula:</strong> ${result.matriculaProfesional}</p>
 
-                    <a class="text-decoration-none text-white btn btn-primary" href="https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html">Aceptar</a>
+                    <a class="text-decoration-none text-white btn btn-primary" href=${URL_CALLBACK}>Aceptar</a>
                     `;
 
                 container.appendChild(infoDiv);
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="alert alert-danger mt-3">
                         <h1>Documento no válido.</h1>
                         <p>El código ingresado no corresponde a un documento válido.</p>
-                            <a class="text-decoration-none text-white btn btn-primary" href="https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html">Aceptar</a>
+                            <a class="text-decoration-none text-white btn btn-primary" href=${URL_CALLBACK}>Aceptar</a>
                     </div>`;
 
                 container.insertAdjacentHTML("beforeend", errorDiv);
