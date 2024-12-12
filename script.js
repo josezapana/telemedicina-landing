@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const formData = new FormData(form);
+        // const formData = new FormData(form);
 
         try {
-            const response = await fetch(URL_FETCH, {
-                method: "POST",
-                body: formData,
+            const response = await fetch(URL_FETCH+'?validationCode=Z2S1C4UI&attentionDate=2024-12-05', {
+                method: "GET",
+                // body: formData,
             });
 
             if (!response.ok) {
