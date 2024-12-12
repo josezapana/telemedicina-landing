@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const attentionDate = document.getElementById("attentionDate").value;
         console.log(validationCode)
         console.log(attentionDate)
+        console.log(captchaResponse)
         try {
-            const response = await fetch(URL_FETCH+`?validationCode=${validationCode}&attentionDate=${attentionDate}`, {
+            const response = await fetch(URL_FETCH+`?validationCode=${validationCode}&attentionDate=${attentionDate}&captchaResponse=${captchaResponse}`, {
                 method: "GET",
             });
 
