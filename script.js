@@ -1,3 +1,7 @@
+function onSubmitCaptcha(token) {
+    document.getElementById('h-captcha-response').value = token;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const container = document.querySelector(".container");
@@ -9,15 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const validationCode = document.getElementById("validationCode").value;
         const attentionDate = document.getElementById("attentionDate").value;
-        console.log(validationCode)
-        console.log(attentionDate)
-        // console.log(captchaResponse)
+        const captchaResponse = document.getElementById("h-captcha-response").value;
+
         try {
-            const response = await fetch(URL_FETCH+`?validationCode=${validationCode}&attentionDate=${attentionDate}`, {
+            const response = await fetch(URL_FETCH + `?validationCode=${validationCode}&attentionDate=${attentionDate}&captchaResponse=${captchaResponse}`, {
                 method: "GET",
             });
-
-            console.log(response);
 
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
