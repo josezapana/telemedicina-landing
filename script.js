@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <h1>Documento válido</h1>
                     <p>El documento es válido</p>
                     <p>${result.descripcion}</p>
-                    <p><strong>Tipo:</strong> ${result.dniPaciente}</p>
+                    <p><strong>Tipo: DNI</strong> ${result.dniPaciente}</p>
                     <p>${result.tipoDocumento}</p>
                     <p><strong>Profesional:</strong> ${result.nombreApellidoMedico}</p>
                     <p><strong>Matrícula:</strong> ${result.matriculaProfesional}</p>
