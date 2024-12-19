@@ -5,11 +5,15 @@ function onSubmitCaptcha(token) {
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const container = document.querySelector(".container");
+    const errorMessage = document.getElementById("errorMessage");
     let URL_FETCH = 'https://stage-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
+
+        errorMessage.classList.add("d-none");
+        errorMessage.textContent = "";
 
         const validationCode = document.getElementById("validationCode").value;
         const attentionDate = document.getElementById("attentionDate").value;
@@ -29,32 +33,38 @@ document.addEventListener("DOMContentLoaded", function () {
             form.style.display = "none";
             if (result.estado === "SUCCESS") {
                 const infoDiv = document.createElement("div");
-                infoDiv.className = "alert alert-success mt-3";
+                infoDiv.className = "container-valido";
 
                 infoDiv.innerHTML = `
-                    <h1>Documento válido</h1>
-                    <p>El documento es válido</p>
-                    <p>${result.descripcion}</p>
-                    <p><strong>Tipo: DNI</strong> ${result.dniPaciente}</p>
-                    <p>${result.tipoDocumento}</p>
-                    <p><strong>Profesional:</strong> ${result.nombreApellidoMedico}</p>
-                    <p><strong>Matrícula:</strong> ${result.matriculaProfesional}</p>
+                    <h1 class="titulo-valido">Documento válido</h1>
+                    <p class="texto">El documento es válido</p>
+                    <div class="informacion-valido">
+                        <p>${result.descripcion}</p>
+                        <p>Tipo: DNI ${result.dniPaciente}</p>
+                        <p>${result.tipoDocumento}</p>
+                        <p>Profesional: ${result.nombreApellidoMedico}</p>
+                        <p>Matrícula: ${result.matriculaProfesional}</p>
+                    </div>
 
-                    <a class="text-decoration-none text-white btn btn-primary" href=${URL_CALLBACK}>Aceptar</a>
+                    <a class="text-decoration-none text-white btn btn-aceptar mt-1" href=${URL_CALLBACK}>Aceptar</a>
+                    <a class="color-link mt-1" href=${URL_CALLBACK}>Volver atrás</a>
                     `;
 
                 container.appendChild(infoDiv);
             } else {
                 const errorDiv = `
-                    <div class="alert alert-danger mt-3">
-                        <h1>Documento no válido.</h1>
-                        <p>El código ingresado no corresponde a un documento válido.</p>
-                            <a class="text-decoration-none text-white btn btn-primary" href=${URL_CALLBACK}>Aceptar</a>
+                    <div class="container-invalido">
+                        <h1 class="titulo-invalido">Documento no válido.</h1>
+                        <p class="texto">El código ingresado no corresponde a un documento válido.</p>
+                            <a class="text-decoration-none text-white btn btn-aceptar" href=${URL_CALLBACK}>Aceptar</a>
+                            <a class="color-link mt-1" href=${URL_CALLBACK}>Volver atrás</a>
                     </div>`;
 
                 container.insertAdjacentHTML("beforeend", errorDiv);
             }
         } catch (err) {
+            errorMessage.textContent = "Hubo un problema en el servidor. Inténtalo nuevamente más tarde.";
+            errorMessage.classList.remove("d-none");
             console.error(err);
         }
     });
