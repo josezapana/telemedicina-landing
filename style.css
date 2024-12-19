@@ -1,0 +1,122 @@
+body {
+    background-image: url('assets/bg-ms.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+}
+.btn-enviar {
+    width: 380px;
+    color: #fff;
+    background-color: #00a8c3;
+    border-color: #00a8c3;
+    padding: 15px 0;
+    font-size: 25px;
+    margin-top: 10px;
+}
+.btn-enviar:hover{
+    background-color: #00b6d2;
+    color: #fff;
+}
+.form-label {
+    color: #0009;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form-control{
+    width: 547px;
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+    padding: 15px 10px;
+    font-size: 20px;
+}
+#validationCode::placeholder {
+    color: #a7a7a7;
+}
+.h-captcha{
+    text-align: center;
+    display: block;
+}
+
+.color-link{
+    color: #e81877;
+    font-weight: bold;
+}
+
+/* Documento Valido */
+.container-valido{
+    width: 380px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.titulo-valido {
+    font-size: 38px;
+    color: #00b6d2;
+    font-style: italic;
+}
+
+.texto{
+    font-size: 26.6px;
+    color: #858585;
+    margin-bottom: 20px;
+}
+
+.informacion-valido{
+    font-size: 26.6px;
+    color: #2a2a2a;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.informacion-valido p {
+    margin: 2px 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+/* Documento No Valido */
+.container-invalido{
+    width: 547px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.titulo-invalido {
+    font-size: 38px;
+    color: #e81877;
+    font-style: italic;
+    margin-top: 50px;
+}
+
+.btn-aceptar{
+    width: 285px;
+    color: #fff;
+    background-color: #00a8c3;
+    border-color: #00a8c3;
+    padding: 15px 0;
+    font-size: 25px;
+    margin-top: 50px;
+}
+.btn-aceptar:hover{
+    background-color: #00b6d2;
+    color: #fff;
+}
