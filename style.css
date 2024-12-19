@@ -2,7 +2,7 @@ body {
     background-image: url('assets/bg-ms.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     height: 100vh;
     margin: 0;
 }
@@ -11,7 +11,7 @@ body {
     color: #fff;
     background-color: #00a8c3;
     border-color: #00a8c3;
-    padding: 15px 0;
+    padding: 10px 0;
     font-size: 25px;
     margin-top: 10px;
 }
@@ -21,7 +21,7 @@ body {
 }
 .form-label {
     color: #0009;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
     display: block;
@@ -33,11 +33,11 @@ form{
     justify-content: center;
 }
 .form-control{
-    width: 547px;
+    width: 500px;
     border-radius: 0;
     box-shadow: none;
     border-color: #d2d6de;
-    padding: 15px 10px;
+    padding: 10px 10px;
     font-size: 20px;
 }
 #validationCode::placeholder {
@@ -51,6 +51,8 @@ form{
 .color-link{
     color: #e81877;
     font-weight: bold;
+    display: block;
+    padding-bottom: 10px;
 }
 
 /* Documento Valido */
@@ -77,7 +79,7 @@ form{
 }
 
 .informacion-valido{
-    font-size: 26.6px;
+    font-size: 20px;
     color: #2a2a2a;
     margin-bottom: 20px;
     font-weight: bold;
@@ -112,7 +114,7 @@ form{
     color: #fff;
     background-color: #00a8c3;
     border-color: #00a8c3;
-    padding: 15px 0;
+    padding: 10px 0;
     font-size: 25px;
     margin-top: 50px;
 }
