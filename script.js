@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const container = document.querySelector(".container");
     const errorMessage = document.getElementById("errorMessage");
-    let URL_FETCH = 'https://www.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
+    let URL_FETCH = 'https://www.ms.gba.gov.ar/sitios/misalud/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
 
     form.addEventListener("submit", async function (event) {
