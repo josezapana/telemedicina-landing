@@ -6,8 +6,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const container = document.querySelector(".container");
     const errorMessage = document.getElementById("errorMessage");
+    const validationCodeInput = document.getElementById("validationCode");
+    const attentionDateInput = document.getElementById("attentionDate");
+    const captchaResponseInput = document.getElementById("h-captcha-response");
+    const submitButton = form.querySelector("button[type=submit]");
+
     let URL_FETCH = 'https://misaluddigital.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
+
+    function validateForm() {
+        const isValidationCodeFilled = validationCodeInput.value.trim() !== "";
+        const isAttentionDateFilled = attentionDateInput.value.trim() !== "";
+        const isCaptchaCompleted = captchaResponseInput.value.trim() !== "";
+
+        submitButton.disabled = !(isValidationCodeFilled && isAttentionDateFilled && isCaptchaCompleted);
+    }
+
+    validationCodeInput.addEventListener("input", validateForm);
+    attentionDateInput.addEventListener("input", validateForm);
+
+    window.onSubmitCaptcha = function (token) {
+        captchaResponseInput.value = token;
+        validateForm();
+    };
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
