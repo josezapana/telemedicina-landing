@@ -2,7 +2,6 @@ body {
     background-image: url('assets/bg-ms.png');
     background-size: cover;
     background-position: center;
-    /* background-repeat: no-repeat; */
     height: 100vh;
     margin: 0;
 }
@@ -14,6 +13,7 @@ body {
     padding: 10px 0;
     font-size: 25px;
     margin-top: 10px;
+    cursor: pointer;
 }
 .btn-enviar:hover{
     background-color: #00b6d2;
@@ -26,6 +26,7 @@ body {
     text-align: center;
     display: block;
 }
+
 form{
     display: flex;
     flex-direction: column;
@@ -118,7 +119,17 @@ form{
     font-size: 25px;
     margin-top: 50px;
 }
+
 .btn-aceptar:hover{
     background-color: #00b6d2;
     color: #fff;
 }
+
+.btn-enviar:disabled {
+    background-color: #00a8c3;
+    color: #fff;
+    opacity: 1;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
