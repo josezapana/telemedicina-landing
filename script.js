@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const captchaResponseInput = document.getElementById("h-captcha-response");
     const submitButton = form.querySelector("button[type=submit]");
 
-    let URL_FETCH = 'https://stage-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
+    let URL_FETCH = 'https://misaluddigital.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
 
     function validateForm() {
