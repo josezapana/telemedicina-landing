@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(URL_FETCH + `?validationCode=${validationCode}&attentionDate=${attentionDate}&captchaResponse=${captchaResponse}`, {
                 method: "GET",
+                headers: {
+                    'Sec-Fetch-Site': 'same-site'  // El encabezado es generado por el navegador.
+                  },
             });
 
             if (!response.ok) {
