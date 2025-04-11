@@ -11,11 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const captchaResponseInput = document.getElementById("h-captcha-response");
     const submitButton = form.querySelector("button[type=submit]");
 
-    //let URL_FETCH = 'https://stage-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
-    let URL_FETCH = 'http://localhost:8610/api/validador-documentos/validate-codigo-documento';
+    let URL_FETCH = 'https://stage-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
     // SE AGREGA LINK DE DESCARGA DE DOCUMENTO
-    let URL_DOWNLOAD_DOCUMENT = 'http://localhost:8610/api/pdf/v1/certificado-ciudadano';
+    let URL_DOWNLOAD_DOCUMENT = 'https://stage-telemedicina.ms.gba.gov.ar/api/pdf/v1/certificado-ciudadano';
     // ---------------------------------------
     function validateForm() {
         const isValidationCodeFilled = validationCodeInput.value.trim() !== "";
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 container.appendChild(infoDiv);
 
-                // LLAMADO A LA FUNCION DE DESCARGA
+                // FETCH PARA DESCARGA DE DOCUMENTO
                 document.getElementById("linkDownloadDocument").addEventListener("click", () => {
                   fetch(URL_DOWNLOAD_DOCUMENT, {
                     method: "POST",
