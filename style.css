@@ -60,6 +60,8 @@ form{
     color: #44bfce;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: underline;
+    font-size: 20px;
 }
 
 /* Documento Valido */
