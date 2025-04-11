@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Profesional: ${result.nombreApellidoMedico}</p>
                         <p>Matrícula: ${result.matriculaProfesional}</p>
                     </div>
-                    // SE AGREGA ENLACE PARA DESCARGA DE DOCUMENTO
+                    <!-- SE AGREGA ENLACE PARA DESCARGA DE DOCUMENTO -->
                     <p class="link-descarga my-2" id="linkDownloadDocument">Descargar documento</p>
-                    // -------------------------------------------
+                    <!-- ------------------------------------------- -->
                     <a class="text-decoration-none text-white btn btn-aceptar mt-1" href=${URL_CALLBACK}>Aceptar</a>
                     <a class="color-link mt-1" href=${URL_CALLBACK}>Volver atrás</a>
                     `;
