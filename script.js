@@ -71,39 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Profesional: ${result.nombreApellidoMedico}</p>
                         <p>Matrícula: ${result.matriculaProfesional}</p>
                     </div>
-                    <!-- SE AGREGA ENLACE PARA DESCARGA DE DOCUMENTO -->
-                    <!-- <p class="link-descarga my-2" id="linkDownloadDocument">Descargar documento</p> -->
-                    <!-- ------------------------------------------- -->
+                    
                     <a class="text-decoration-none text-white btn btn-aceptar mt-1" href=${URL_CALLBACK}>Aceptar</a>
                     <a class="color-link mt-1" href=${URL_CALLBACK}>Volver atrás</a>
                     `;
 
                 container.appendChild(infoDiv);
-
-                // FETCH PARA DESCARGA DE DOCUMENTO
-                document.getElementById("linkDownloadDocument").addEventListener("click", () => {
-                  fetch(URL_DOWNLOAD_DOCUMENT, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ idDocumentoEnviado: result.idDocumento })
-                  })
-                  .then(response => response.blob())
-                  .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "documento.pdf";
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                  })
-                  .catch(err => {
-                    console.error("Error al descargar documento:", err);
-                  });
-                });
             } else {
                 const errorDiv = `
                     <div class="container-invalido">
