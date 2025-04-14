@@ -79,13 +79,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 container.appendChild(infoDiv);
 
                 const linkDownload = document.getElementById("linkDownloadDocument");
-                if (linkDownload && result.idDocumento) {
-                    linkDownload.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        const downloadUrl = `${URL_DOWNLOAD_DOCUMENT}?idDocumentoEnviado=${result.idDocumento}`;
-                        window.open(downloadUrl, "_blank");
-                    });
-                }
+                linkDownload.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const downloadUrl = `${URL_DOWNLOAD_DOCUMENT}?idDocumentoEnviado=${result.idDocumento}`;
+                
+                    const link = document.createElement("a");
+                    link.href = downloadUrl;
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
             } else {
                 const errorDiv = `
                     <div class="container-invalido">
