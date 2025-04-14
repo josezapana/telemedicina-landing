@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let URL_FETCH = 'https://dev-telemedicina.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
-
+    let URL_DOWNLOAD_DOCUMENT = 'https://dev-telemedicina.ms.gba.gov.ar/api/pdf/v1/certificado-ciudadano';
+    
     function validateForm() {
         const isValidationCodeFilled = validationCodeInput.value.trim() !== "";
         const isAttentionDateFilled = attentionDateInput.value.trim() !== "";
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch(URL_FETCH + `?validationCode=${validationCode}&attentionDate=${attentionDate}&captchaResponse=${captchaResponse}`, {
                 method: "GET",
                 headers: {
-                    'Sec-Fetch-Site': 'same-site'  // El encabezado es generado por el navegador.
+                    'Sec-Fetch-Site': 'same-site'
                   },
             });
 
@@ -70,11 +71,21 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Matrícula: ${result.matriculaProfesional}</p>
                     </div>
 
+                    <a href="#" class="link-descarga my-2" id="linkDownloadDocument">Descargar documento</a>
                     <a class="text-decoration-none text-white btn btn-aceptar mt-1" href=${URL_CALLBACK}>Aceptar</a>
                     <a class="color-link mt-1" href=${URL_CALLBACK}>Volver atrás</a>
                     `;
 
                 container.appendChild(infoDiv);
+
+                const linkDownload = document.getElementById("linkDownloadDocument");
+                if (linkDownload && result.idDocumento) {
+                    linkDownload.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        const downloadUrl = `${URL_DOWNLOAD_DOCUMENT}?idDocumentoEnviado=${result.idDocumento}`;
+                        window.open(downloadUrl, "_blank");
+                    });
+                }
             } else {
                 const errorDiv = `
                     <div class="container-invalido">
