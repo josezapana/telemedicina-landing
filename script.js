@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const captchaResponseInput = document.getElementById("h-captcha-response");
     const submitButton = form.querySelector("button[type=submit]");
 
-    let URL_FETCH = 'https://misaluddigital.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
+    let URL_FETCH = 'https://sistemas-desa.ms.gba.gov.ar/api/validador-documentos/validate-codigo-documento';
     let URL_CALLBACK = 'https://josezapana.github.io/telemedicina-landing/landingMiSaludDigital.html';
-    let URL_DOWNLOAD_DOCUMENT = 'https://misaluddigital.ms.gba.gov.ar/api/validador-pdf/v1/validador-certificado-ciudadano';
+    let URL_DOWNLOAD_DOCUMENT = 'https://sistemas-desa.ms.gba.gov.ar/api/validador-pdf/v1/validador-certificado-ciudadano';
     
     function validateForm() {
         const isValidationCodeFilled = validationCodeInput.value.trim() !== "";
